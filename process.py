@@ -20,13 +20,9 @@ def main():
     aksara_gsd = aksara_tokenize(input_gsd)
     aksara_csui = aksara_tokenize(input_csui)
 
-    # for i in range(len(input_csui)):
-    #     if accuracy(aksara_csui[i], input_csui[i]) == True:
-    #         print(i , " benar")
-    #     elif accuracy(aksara_csui[i], input_csui[i]) == False:
-    #         print(i , " salah")
+    total_accuracy(aksara_pud, input_pud)
+    # accuracy(aksara_pud[0], input_pud[0])
 
-    accuracy(aksara_csui[10], input_csui[10])
 
 def read_conllu(filename):
     with open(filename,  encoding='utf-8', errors='ignore') as data:
@@ -40,22 +36,37 @@ def accuracy(token, gold_standard):
     N = len(gold_standard)
     i = 0
     j = 0
-    print(gold_standard)
-    print(token)
     while j < len(token):
-        if(i >= len(gold_standard)):
+        # try:
+        #     print(i, gold_standard[i], j, token[j])
+        # except:
+        #     None
+        if(i >= N and j <= N):
             i = j
             j += 1
-        print(gold_standard[i], token[j])
-        if str(gold_standard[i]) == token[j]:
+        elif str(gold_standard[i]) == token[j]:
             T += 1
             j += 1
         i += 1
     print(T)
+    return(T, N)
+
+def error_analysis(T, N):
     if N != T:
         return False
     else:
         return True
+
+def total_accuracy(tokens, gold_standards):
+    total_T = 0
+    total_N = 0
+    for i in range(len(tokens)):
+        T, N = accuracy(tokens[i], gold_standards[i])
+        total_T += T
+        total_N += N
+    print(total_T)
+    print("_")
+    print(total_N)
 
 
 def read_text(filename):
