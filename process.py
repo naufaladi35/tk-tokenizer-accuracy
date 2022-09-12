@@ -3,57 +3,61 @@ from conllu import parse
 import re
 
 
-def aksara_tokenize(input_text):
+def aksara_tokenize(token_lists):
     res = []
-    for line in input_text:
+    for token_list in token_lists:
         tokenizer = BaseTokenizer()
-        res.append(tokenizer.tokenize(line)[0])
+        res.append(tokenizer.tokenize(token_list.metadata["text"])[0])
     return res
 
 
-def read():
-    input_pud = []
-    input_gsd = []
-    input_csui = []
-    with open('id_pud-ud-test.conllu', encoding='utf-8', errors='ignore') as f:
-        lines = f.readlines()
-        anno = f.read()
-        sentences = parse(anno)
-    for line in lines:
-        if re.search("^# text =*", line):
-            x = line[9:].strip()
-            input_pud.append(x)
-
-    with open('id_gsd-ud-test.conllu', encoding='utf-8', errors='ignore') as f:
-        lines = f.readlines()
-    for line in lines:
-        if re.search("^# text =*", line):
-            x = line[9:].strip()
-            input_gsd.append(x)
-
-    with open('id_csui-ud-test.conllu', encoding='utf-8', errors='ignore') as f:
-        lines = f.readlines()
-    for line in lines:
-        if re.search("^# text =*", line):
-            x = line[9:].strip()
-            input_csui.append(x)
-
-    
+def main():
+    input_pud = read_conllu('id_pud-ud-test.conllu')
+    input_gsd = read_conllu('id_gsd-ud-test.conllu')
+    input_csui = read_conllu('id_csui-ud-test.conllu')
 
     aksara_pud = aksara_tokenize(input_pud)
     aksara_gsd = aksara_tokenize(input_gsd)
     aksara_csui = aksara_tokenize(input_csui)
     print(aksara_csui[0:2])
 
-def read_conllu():
-    with open('id_csui-ud-test.conllu',  encoding='utf-8', errors='ignore') as data:
+
+def read_conllu(filename):
+    with open(filename,  encoding='utf-8', errors='ignore') as data:
         annotations = data.read()
     sentences = parse(annotations)
-    print(sentences[0])
-    print(sentences[0][0])
-    print(sentences[0].metadata['text'])
+    return sentences
+
+
+def accuracy(token, gold_standard):
+    T = 0
+    N = len(gold_standard)
+    i = 0
+    j = 0
+    print(gold_standard)
+    print(token)
+    while j < len(token):
+        if(i >= len(gold_standard)):
+            i = j
+            j += 1
+        print(gold_standard[i], token[j])
+        if str(gold_standard[i]) == token[j]:
+            T += 1
+            j += 1
+        i += 1
+    print(T)
+
+
+def read_text(filename):
+    res = []
+    with open(filename, encoding='utf-8', errors='ignore') as f:
+        lines = f.readlines()
+    for line in lines:
+        if re.search("^# text =*", line):
+            x = line[9:].strip()
+            res.append(x)
+    return res
+
 
 if __name__ == "__main__":
-    # main()
-    read()
-    read_conllu()
+    main()
