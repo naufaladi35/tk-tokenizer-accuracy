@@ -20,8 +20,12 @@ def main():
     aksara_gsd = aksara_tokenize(input_gsd)
     aksara_csui = aksara_tokenize(input_csui)
 
+    print("PUD")
     total_accuracy(aksara_pud, input_pud)
-    # accuracy(aksara_pud[0], input_pud[0])
+    print("GSD")
+    total_accuracy(aksara_gsd, input_gsd)
+    print("CSUI")
+    total_accuracy(aksara_csui, input_csui)
 
 
 def read_conllu(filename):
@@ -34,20 +38,15 @@ def read_conllu(filename):
 def accuracy(token, gold_standard):
     T = 0
     N = len(gold_standard)
-    i = 0
-    j = 0
-    while j < len(token):
-        # try:
-        #     print(i, gold_standard[i], j, token[j])
-        # except:
-        #     None
-        if(i >= N and j <= N):
-            i = j
-            j += 1
-        elif str(gold_standard[i]) == token[j]:
-            T += 1
-            j += 1
-        i += 1
+    j_init = 0
+    for i in range(len(token)):
+        for j in range(j_init, N):
+            # print(j, gold_standard[j], i, token[i])
+            if str(gold_standard[j]) == token[i]:
+                j_init = i + 1
+                T += 1
+                break
+
     return(T, N)
 
 
