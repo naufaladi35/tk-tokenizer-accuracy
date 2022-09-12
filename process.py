@@ -45,6 +45,11 @@ def accuracy(token, gold_standard):
 
     return(T, N)
 
+def error_analysis(T, N):
+    if N != T:
+        return False
+    else:
+        return True
 
 def total_accuracy(tokens, gold_standards):
     total_T = 0
@@ -54,7 +59,7 @@ def total_accuracy(tokens, gold_standards):
         total_T += T
         total_N += N
     print(total_T, "/", total_N)
-
+    print(total_T / total_N * 100)
 
 def read_text(filename):
     res = []
