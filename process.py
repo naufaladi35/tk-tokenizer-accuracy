@@ -19,8 +19,14 @@ def main():
     aksara_pud = aksara_tokenize(input_pud)
     aksara_gsd = aksara_tokenize(input_gsd)
     aksara_csui = aksara_tokenize(input_csui)
-    print(aksara_csui[0:2])
 
+    # for i in range(len(input_csui)):
+    #     if accuracy(aksara_csui[i], input_csui[i]) == True:
+    #         print(i , " benar")
+    #     elif accuracy(aksara_csui[i], input_csui[i]) == False:
+    #         print(i , " salah")
+
+    accuracy(aksara_csui[10], input_csui[10])
 
 def read_conllu(filename):
     with open(filename,  encoding='utf-8', errors='ignore') as data:
@@ -46,6 +52,10 @@ def accuracy(token, gold_standard):
             j += 1
         i += 1
     print(T)
+    if N != T:
+        return False
+    else:
+        return True
 
 
 def read_text(filename):
