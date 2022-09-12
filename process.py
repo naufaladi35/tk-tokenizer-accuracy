@@ -45,11 +45,13 @@ def accuracy(token, gold_standard):
 
     return(T, N)
 
+
 def error_analysis(T, N):
     if N != T:
         return False
     else:
         return True
+
 
 def total_accuracy(tokens, gold_standards):
     total_T = 0
@@ -60,6 +62,7 @@ def total_accuracy(tokens, gold_standards):
         total_N += N
     print(total_T, "/", total_N)
     print(total_T / total_N * 100)
+
 
 def read_text(filename):
     res = []
@@ -77,19 +80,28 @@ def main():
     input_gsd = read_conllu('id_gsd-ud-test.conllu')
     input_csui = read_conllu('id_csui-ud-test.conllu')
 
+    print("=======Aksara=========")
     aksara_pud = aksara_tokenize(input_pud)
     aksara_gsd = aksara_tokenize(input_gsd)
     aksara_csui = aksara_tokenize(input_csui)
-    print("=======Aksara=========")
+
     print("PUD")
     total_accuracy(aksara_pud, input_pud)
     print("GSD")
     total_accuracy(aksara_gsd, input_gsd)
     print("CSUI")
     total_accuracy(aksara_csui, input_csui)
-    print("=======Bahasa=========")
 
-    bahasa_tokenize(input_pud)
+    print("=======Bahasa=========")
+    bahasa_pud = bahasa_tokenize(input_pud)
+    bahasa_gsd = bahasa_tokenize(input_gsd)
+    bahasa_csui = bahasa_tokenize(input_csui)
+    print("PUD")
+    total_accuracy(bahasa_pud, input_pud)
+    print("GSD")
+    total_accuracy(bahasa_gsd, input_gsd)
+    print("CSUI")
+    total_accuracy(bahasa_csui, input_csui)
 
 
 if __name__ == "__main__":
