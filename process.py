@@ -57,9 +57,7 @@ def total_accuracy(tokens, gold_standards):
         T, N = accuracy(tokens[i], gold_standards[i])
         total_T += T
         total_N += N
-    print(total_T)
-    print("_")
-    print(total_N)
+    print(total_T, "/", total_N)
 
 
 def read_text(filename):
