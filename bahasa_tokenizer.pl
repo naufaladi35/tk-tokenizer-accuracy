@@ -43,5 +43,3 @@ sub token {
                split /$ntd|$dtn|$nv/,$msg;    
 	return @words;
 }
-
-print "[Tokenizer.pl] Document tokenized ...\n";

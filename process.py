@@ -1,31 +1,27 @@
+import subprocess
 from aksara_tokenizer import BaseTokenizer
 from conllu import parse
 import re
 
 
-def aksara_tokenize(token_lists):
+def aksara_tokenize(input_list):
     res = []
-    for token_list in token_lists:
+    for input in input_list:
         tokenizer = BaseTokenizer()
-        res.append(tokenizer.tokenize(token_list.metadata["text"])[0])
+        res.append(tokenizer.tokenize(input.metadata["text"])[0])
     return res
 
 
-def main():
-    input_pud = read_conllu('id_pud-ud-test.conllu')
-    input_gsd = read_conllu('id_gsd-ud-test.conllu')
-    input_csui = read_conllu('id_csui-ud-test.conllu')
-
-    aksara_pud = aksara_tokenize(input_pud)
-    aksara_gsd = aksara_tokenize(input_gsd)
-    aksara_csui = aksara_tokenize(input_csui)
-
-    print("PUD")
-    total_accuracy(aksara_pud, input_pud)
-    print("GSD")
-    total_accuracy(aksara_gsd, input_gsd)
-    print("CSUI")
-    total_accuracy(aksara_csui, input_csui)
+def bahasa_tokenize(input_list):
+    res = []
+    for input in input_list:
+        with open('input.txt', 'w', encoding='utf-8', errors='ignore') as file:
+            file.write(input.metadata["text"])
+        subprocess.run("perl .\\bahasa_tokenizer.pl")
+        with open('res-token.txt', encoding='utf-8', errors='ignore') as file:
+            res_token = file.read().split("\n")
+            res.append(res_token)
+    return res
 
 
 def read_conllu(filename):
@@ -69,6 +65,26 @@ def read_text(filename):
             x = line[9:].strip()
             res.append(x)
     return res
+
+
+def main():
+    input_pud = read_conllu('id_pud-ud-test.conllu')
+    input_gsd = read_conllu('id_gsd-ud-test.conllu')
+    input_csui = read_conllu('id_csui-ud-test.conllu')
+
+    aksara_pud = aksara_tokenize(input_pud)
+    aksara_gsd = aksara_tokenize(input_gsd)
+    aksara_csui = aksara_tokenize(input_csui)
+    print("=======Aksara=========")
+    print("PUD")
+    total_accuracy(aksara_pud, input_pud)
+    print("GSD")
+    total_accuracy(aksara_gsd, input_gsd)
+    print("CSUI")
+    total_accuracy(aksara_csui, input_csui)
+    print("=======Bahasa=========")
+
+    bahasa_tokenize(input_pud)
 
 
 if __name__ == "__main__":
