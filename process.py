@@ -116,7 +116,6 @@ def main():
     print("CSUI")
     total_accuracy(bahasa_csui, input_csui)
 
-    check_false_tokenization(bahasa_csui, input_csui)
 
 
 if __name__ == "__main__":
