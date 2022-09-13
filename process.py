@@ -37,7 +37,7 @@ def accuracy(token, gold_standard):
     j_init = 0
     for i in range(len(token)):
         for j in range(j_init, N):
-            print(j, gold_standard[j], i, token[i])
+            # print(j, gold_standard[j], i, token[i])
             if str(gold_standard[j]) == token[i]:
                 j_init = j + 1
                 T += 1
