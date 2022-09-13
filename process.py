@@ -39,9 +39,14 @@ def accuracy(token, gold_standard):
         for j in range(j_init, N):
             # print(j, gold_standard[j], i, token[i])
             if str(gold_standard[j]) == token[i]:
-                j_init = i + 1
+                j_init = j + 1
                 T += 1
                 break
+    # Print incorrect token
+    # if T != N:
+    #     print(T, N)
+    #     print("Token", token)
+    #     print("GS", gold_standard)
 
     return(T, N)
 
@@ -103,6 +108,7 @@ def main():
     bahasa_pud = bahasa_tokenize(input_pud)
     bahasa_gsd = bahasa_tokenize(input_gsd)
     bahasa_csui = bahasa_tokenize(input_csui)
+
     print("PUD")
     total_accuracy(bahasa_pud, input_pud)
     print("GSD")
