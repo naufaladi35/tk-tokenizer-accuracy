@@ -57,6 +57,13 @@ def error_analysis(T, N):
     else:
         return True
 
+def check_false_tokenization(token, gold_standard):
+    for i in range(len(gold_standard)):
+        x, y = accuracy(token[i], gold_standard[i])
+        if error_analysis(x, y) == False:
+            print(i, " false")
+        elif error_analysis(x, y) == True:
+            print(i, " true")
 
 def total_accuracy(tokens, gold_standards):
     total_T = 0
@@ -108,6 +115,7 @@ def main():
     total_accuracy(bahasa_gsd, input_gsd)
     print("CSUI")
     total_accuracy(bahasa_csui, input_csui)
+
 
 
 if __name__ == "__main__":
